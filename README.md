@@ -47,3 +47,4 @@ Below are my personal notes and observations on the current setup. They will cha
 - Dependency sharing is a balance between coupling packages together and increasing page sizes. Webpack module federation or SystemJs import maps could make this an opt-in process for components.
 - Ara's Novas are a very thin layer around Hypernova, and the documentation suggests they should be 1:1 with components. Hypernova's API isn't as rigid on this - it suggests that one Nova would serve multiple components - the service provides a method for rendering them.
 - Putting components behind directives removes type checking for the data that's being passed to them - but this is probably already a concern with JSPs.
+- If a Nova fails to render a component, you do not get an error in stdout from the container or in the browser's console. It appears in the HTML source as a `<!-- Proxy Error: ReferenceError -->` and no stack trace.
