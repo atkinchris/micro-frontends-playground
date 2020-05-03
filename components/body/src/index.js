@@ -3,13 +3,13 @@ import { renderReact } from 'nova-react'
 import express from 'express'
 import path from 'path'
 
-import Example from './components/Example'
+import Body from './components/Body'
 
 hypernova({
   devMode: process.env.NODE_ENV !== 'production',
   getComponent(name) {
-    if (name === 'Example') {
-      return renderReact(name, Example)
+    if (name === 'Body') {
+      return renderReact(name, Body)
     }
 
     return null

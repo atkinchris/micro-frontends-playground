@@ -1,10 +1,10 @@
 import { mountComponent, loadById, load } from 'nova-react'
 
-import Example from './components/Example'
+import Body from './components/Body'
 
 const render = (name, { node, data }) => {
-  if (name === 'Example') {
-    return mountComponent(Example, node, data)
+  if (name === 'Body') {
+    return mountComponent(Body, node, data)
   }
 }
 

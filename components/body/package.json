@@ -1,6 +1,5 @@
 {
-  "name": "example",
-  "description": "Another Hypernova React project",
+  "name": "component",
   "version": "0.0.0",
   "scripts": {
     "build": "webpack --mode production",
