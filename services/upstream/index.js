@@ -11,6 +11,7 @@ const app = express()
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')
+app.disable('view cache')
 
 const port = process.env.PORT || 8080
 
