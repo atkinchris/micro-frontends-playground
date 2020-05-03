@@ -12,8 +12,6 @@ services:
     build: ./services/nova-proxy
     ports:
       - 8080:8080
-    links:
-      - nova-cluster
     environment:
       PORT: 8080
       HYPERNOVA_BATCH: http://nova-cluster:3000/batch
@@ -27,3 +25,10 @@ services:
       - ./services/upstream:/usr/share/nginx/html:ro
     environment:
       PORT: 4000
+
+  component-example:
+    build: ./components/example
+    ports:
+      - 5001:8080
+    environment:
+      PORT: 8080
