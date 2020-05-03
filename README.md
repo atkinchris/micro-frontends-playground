@@ -4,7 +4,9 @@ This is a repository for me to test micro frontend architecture, and it's relate
 
 ## Running
 
-Clone this repository, change to the cloned directory, then execute `./run.sh`.
+Clone this repository, change to the cloned directory, then execute `./run.sh`. Once running, visit [localhost:8080](http://localhost:8080) in your browser to see the content.
+
+This will take a few minutes on first run, as it pulls the Docker images and builds each component. Subsequent runs will be much faster, as only changed containers will be rebuilt.
 
 ## Architecture
 
@@ -12,17 +14,27 @@ Clone this repository, change to the cloned directory, then execute `./run.sh`.
 
 This is a simple Node Express server, serving HTML that contains placeholders ("directives") for the micro frontends to be rendered in. This plays the part of an upstream service, such as a content management system, providing content structure and data.
 
+[Upstream](http://localhost:4000)
+
 ### Ara Framework - Nova Cluster (`services/nova-cluster`)
 
 This service delegates calls from the Nova Proxy to the relevant micro frontend "Novas", enabling Nova Proxy to request components without needing to know which Nova is responsible for rendering them.
 
+[Cluster](http://localhost:3000)
+
 ### Ara Framework - Nova Proxy (`services/nova-proxy`)
 
-This service proxies all calls to the Upstream, inspecting the returned HTML for component placeholders. It requests the rendered content for these placeholders from the Nova Cluster.
+This service proxies all calls to the Upstream, inspecting the returned HTML for component placeholders. It requests the rendered content for these placeholders from the Nova Cluster. It is the entry point for incoming requests.
+
+[Proxy](http://localhost:8080)
 
 ### Components (`components/*`)
 
 These are the components ("Novas") that will render into the placeholders in the HTML. They are independantly deployed services, runing in their own, individual containers.
+
+- [Components - Header](http://localhost:5001)
+- [Components - Body](http://localhost:5002)
+- [Components - Footer](http://localhost:5003)
 
 ## Author's Notes
 
@@ -34,3 +46,4 @@ Below are my personal notes and observations on the current setup. They will cha
 - Could we put all components into Open Components registry (on the same application) - and have thin wrappers for components that do need to call an external service to render, like the Novas? This would encourage React and similar dependencies, but still allow for other technologies.
 - Dependency sharing is a balance between coupling packages together and increasing page sizes. Webpack module federation or SystemJs import maps could make this an opt-in process for components.
 - Ara's Novas are a very thin layer around Hypernova, and the documentation suggests they should be 1:1 with components. Hypernova's API isn't as rigid on this - it suggests that one Nova would serve multiple components - the service provides a method for rendering them.
+- Putting components behind directives removes type checking for the data that's being passed to them - but this is probably already a concern with JSPs.
