@@ -1,7 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import React from 'react'
 
-const Body = ({ text }) => <div>{text}</div>;
+import Counter from './Counter'
+
+const Body = ({ text }) => (
+  <div>
+    {text}
+    <Counter />
+  </div>
+)
 
 Body.propTypes = {
   text: PropTypes.string.isRequired,
