@@ -1,19 +1,27 @@
 version: '3.1'
 
 services:
-
   nova-cluster:
-    restart: always
-    build: ./.ara/cluster
+    build: ./services/nova-cluster
     ports:
-      - 3000:8000
+      - 3000:3000
+    environment:
+      PORT: 3000
 
   nova-proxy:
-    restart: always
-    build: ./.ara/proxy
+    build: ./services/nova-proxy
     ports:
       - 8080:8080
     links:
       - nova-cluster
     environment:
-      HYPERNOVA_BATCH: http://nova-cluster:8000/batch
+      PORT: 8080
+      HYPERNOVA_BATCH: http://nova-cluster:3000/batch
+      UPSTREAM: http://upstream:80
+
+  upstream:
+    image: nginx
+    ports:
+      - 4000:80
+    volumes:
+      - ./services/upstream:/usr/share/nginx/html:ro
