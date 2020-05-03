@@ -1,5 +1,11 @@
 {
-  "Example": {
-    "server": "http://component-example:8080/batch"
+  "Header": {
+    "server": "http://component-header:8080/batch"
+  },
+  "Body": {
+    "server": "http://component-body:8080/batch"
+  },
+  "Footer": {
+    "server": "http://component-footer:8080/batch"
   }
 }
