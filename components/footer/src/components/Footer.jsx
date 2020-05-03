@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Footer = ({ title }) => <div>Footer: {title}</div>;
+const Footer = ({ message }) => <div>Message of the day: {message}</div>;
 
 Footer.propTypes = {
-  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
 };
 
 export default Footer;

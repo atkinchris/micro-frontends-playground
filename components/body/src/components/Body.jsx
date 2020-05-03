@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Body = ({ data }) => <div>Body data: <pre>{JSON.stringify(data, null, '\t')}</pre></div>;
+const Body = ({ text }) => <div>{text}</div>;
 
 Body.propTypes = {
-  data: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 export default Body;
