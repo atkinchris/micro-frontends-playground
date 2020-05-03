@@ -4,6 +4,8 @@ This is a repository for me to test micro frontend architecture, and it's relate
 
 ## Running
 
+You will need [Docker Desktop](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/) to run this project.
+
 Clone this repository, change to the cloned directory, then execute `./run.sh`. Once running, visit [localhost:8080](http://localhost:8080) in your browser to see the content.
 
 This will take a few minutes on first run, as it pulls the Docker images and builds each component. Subsequent runs will be much faster, as only changed containers will be rebuilt.
