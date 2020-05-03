@@ -1,6 +1,11 @@
 const path = require('path')
 const express = require('express')
 
+const hbs = require('hbs')
+const directive = require('hypernova-handlebars-directive')
+
+directive(hbs)
+
 const app = express()
 
 // view engine setup
