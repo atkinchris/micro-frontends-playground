@@ -17,11 +17,13 @@ services:
     environment:
       PORT: 8080
       HYPERNOVA_BATCH: http://nova-cluster:3000/batch
-      UPSTREAM: http://upstream:80
+      UPSTREAM: http://upstream:4000
 
   upstream:
-    image: nginx
+    build: ./services/upstream
     ports:
-      - 4000:80
+      - 4000:4000
     volumes:
       - ./services/upstream:/usr/share/nginx/html:ro
+    environment:
+      PORT: 4000
