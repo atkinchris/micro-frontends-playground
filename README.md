@@ -20,9 +20,9 @@ This service delegates calls from the Nova Proxy to the relevant micro frontend 
 
 This service proxies all calls to the Upstream, inspecting the returned HTML for component placeholders. It requests the rendered content for these placeholders from the Nova Cluster.
 
-### Components
+### Components (`components/*`)
 
-These are the components that will render into the placeholders in the HTML. They are independantly deployed services, runing in their own, individual containers.
+These are the components ("Novas") that will render into the placeholders in the HTML. They are independantly deployed services, runing in their own, individual containers.
 
 ## Author's Notes
 
