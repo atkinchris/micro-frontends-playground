@@ -7,7 +7,8 @@
     "start": "node .",
     "start:withEnv": "node -r dotenv/config .",
     "watch": "nodemon",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint \"src/**/*.ts\""
   },
   "keywords": [],
   "author": "Chris Atkin <atkinchris@gmail.com>",
@@ -26,8 +27,15 @@
     "@types/http-proxy": "^1.17.4",
     "@types/node": "^13.13.4",
     "@types/node-fetch": "^2.5.7",
+    "@typescript-eslint/eslint-plugin": "^2.25.0",
+    "@typescript-eslint/parser": "^2.25.0",
     "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^7.2.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.1",
     "nodemon": "^2.0.3",
+    "prettier": "^2.0.5",
     "typescript": "^3.8.3"
   }
 }

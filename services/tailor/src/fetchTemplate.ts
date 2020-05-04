@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import constants from './constants'
 import RequestWithContext from './RequestWithContext'
 
-const fetchTemplate = async (request: RequestWithContext, parseTemplate: (html: string) => any) => {
+const fetchTemplate = async (request: RequestWithContext, parseTemplate: Function) => {
   const url = `${constants.UPSTREAM_URL}${request.url}`
 
   const response = await fetch(url, {
