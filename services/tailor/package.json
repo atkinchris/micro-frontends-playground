@@ -1,0 +1,16 @@
+{
+  "name": "tailor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "http-proxy": "^1.18.0",
+    "node-tailor": "^3.9.2"
+  }
+}
