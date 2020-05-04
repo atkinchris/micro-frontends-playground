@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "lib": ["es2015"],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2015",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "exclude": ["node_modules", "dist"]
+}

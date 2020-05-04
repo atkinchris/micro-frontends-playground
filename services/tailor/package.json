@@ -2,15 +2,30 @@
   "name": "tailor",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "watch": "nodemon",
+    "build": "tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "Chris Atkin <atkinchris@gmail.com>",
   "license": "UNLICENSED",
+  "nodemonConfig": {
+    "exec": "npm run build && npm run start",
+    "ext": "ts",
+    "watch": "src"
+  },
   "dependencies": {
     "http-proxy": "^1.18.0",
+    "node-fetch": "^2.6.0",
     "node-tailor": "^3.9.2"
+  },
+  "devDependencies": {
+    "@types/http-proxy": "^1.17.4",
+    "@types/node": "^13.13.4",
+    "@types/node-fetch": "^2.5.7",
+    "nodemon": "^2.0.3",
+    "typescript": "^3.8.3"
   }
 }
