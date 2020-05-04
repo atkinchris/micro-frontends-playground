@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node .",
+    "start:withEnv": "node -r dotenv/config .",
     "watch": "nodemon",
     "build": "tsc"
   },
@@ -12,7 +13,7 @@
   "author": "Chris Atkin <atkinchris@gmail.com>",
   "license": "UNLICENSED",
   "nodemonConfig": {
-    "exec": "npm run build && npm run start",
+    "exec": "npm run build && npm run start:withEnv",
     "ext": "ts",
     "watch": "src"
   },
@@ -25,6 +26,7 @@
     "@types/http-proxy": "^1.17.4",
     "@types/node": "^13.13.4",
     "@types/node-fetch": "^2.5.7",
+    "dotenv": "^8.2.0",
     "nodemon": "^2.0.3",
     "typescript": "^3.8.3"
   }
