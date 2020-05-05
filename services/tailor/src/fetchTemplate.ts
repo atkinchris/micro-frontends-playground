@@ -17,7 +17,7 @@ const fetchTemplate = async (request: RequestWithContext, parseTemplate: Functio
 
   // Rewrite Tu Clothing header to inject a demo fragment
   html = html.replace(/<!-- Main Content Starts Here -->(.*)<!-- Main Content Ends Here -->/s, () => {
-    return '<fragment src="http://localhost:3000/header?name=Chris"></fragment>'
+    return '<!-- Fragment Start --><fragment src="http://component:3000/header?name=Chris"></fragment><!-- Fragment End -->'
   })
 
   return parseTemplate(html)
