@@ -1,9 +1,0 @@
-{
-  "locations": [
-    {
-      "path": "/",
-      "host": "UPSTREAM",
-      "modifyResponse": true
-    }
-  ]
-}

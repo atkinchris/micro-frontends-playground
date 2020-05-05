@@ -14,50 +14,31 @@ This will take a few minutes on first run, as it pulls the Docker images and bui
 
 ### Upstream (`services/upstream`)
 
-This is a simple Node Express server, serving HTML that contains placeholders ("directives") for the micro frontends to be rendered in. This plays the part of an upstream service, such as a content management system, providing content structure and data.
+This is a simple Node Express server, serving HTML that contains placeholders (also known as directives) for the micro frontends to be rendered in. This plays the part of an upstream service, such as a content management system, providing content structure and data.
 
 [Upstream](http://localhost:4000)
-
-### Ara Framework - Nova Cluster (`services/nova-cluster`)
-
-This service delegates calls from the Nova Proxy to the relevant micro frontend "Novas", enabling Nova Proxy to request components without needing to know which Nova is responsible for rendering them.
-
-[Cluster](http://localhost:3000)
-
-### Ara Framework - Nova Proxy (`services/nova-proxy`)
-
-This service proxies all calls to the Upstream, inspecting the returned HTML for component placeholders. It requests the rendered content for these placeholders from the Nova Cluster. It is the entry point for incoming requests.
-
-[Proxy](http://localhost:8080)
-
-### Components (`components/*`)
-
-These are the components ("Novas") that will render into the placeholders in the HTML. They are independantly deployed services, runing in their own, individual containers.
-
-#### Body Component
-
-This contains a client side counter, to demonstrate if client side code is being loaded.
-
-- [Components - Header](http://localhost:5001)
-- [Components - Footer](http://localhost:5003)
-- [Components - Body](http://localhost:5002)
 
 ## Author's Notes
 
 Below are my personal notes and observations on the current setup. They will change as the setup does.
 
-- Ara Framework is maintained by a single developer, and while the code is short and understandable, and the docs pretty, I couldn't find evidence of it being used in production by a company.
-- I would have expected Nova Proxy and Nova Cluster to have published, production-ready Docker images, as they are independant applications, rather than packages to be imported. The published images were out of date, but this is understandable as a single person project. I've created Docker images of my own, pulling the repos at fixed tags.
 - What is the overhead to rendering components on their own services, versus putting them as packages within the same registry application (for example: Open Components registry)? You'd need running services or provisioned Lambdas - the cold start on a service or Lambda would be untenable for this.
 - Could we put all components into Open Components registry (on the same application) - and have thin wrappers for components that do need to call an external service to render, like the Novas? This would encourage React and similar dependencies, but still allow for other technologies.
 - Dependency sharing is a balance between coupling packages together and increasing page sizes. Webpack module federation or SystemJs import maps could make this an opt-in process for components.
-- Ara's Novas are a very thin layer around Hypernova, and the documentation suggests they should be 1:1 with components. Hypernova's API isn't as rigid on this - it suggests that one Nova would serve multiple components - the service provides a method for rendering them.
 - Putting components behind directives removes type checking for the data that's being passed to them - but this is probably already a concern with JSPs.
-- If a Nova fails to render a component, you do not get an error in stdout from the container or in the browser's console. It appears in the HTML source as a `<!-- Proxy Error: ReferenceError -->` and no stack trace.
-- Ara Framework does not inject client side JavaScript links into the proxied request, and therefore no client side hydration is done, unless the components are manually loaded. This is a known limitation:
-  - [Stackoverflow - Is there a way to have the client side script also auto loaded from the proxy/cluster services in the Ara Framework?](https://stackoverflow.com/questions/61478514/is-there-a-way-to-have-the-client-side-script-also-auto-loaded-from-the-proxy-cl#)
-  - [GitHub - Inject client scripts URLs from Hypernova response](https://github.com/ara-framework/nova-proxy/issues/10)
 - [Tailor](https://github.com/zalando/tailor) supports laying out micro frontend components from templates, including bringing in their scripts and stylesheets. It boats performance, and many GitHub stars. It doesn't have options to act like a proxy service, like Nova Proxy - it's expecting to be a sibling to a proxy like [Skipper](https://github.com/zalando/skipper). The closest is abusing it's `fetchTemplate` method, which won't work for `POST` requests or streamable content, or passing cookies & headers to the response.
 - How should we deal with component requirements, like scripts and stylesheets? Should these be:
   - Deployed to a publicly accessible CDN, and loaded without changing the URL
   - Served from the component servers, and proxied through the main site
+
+## Decisions
+
+### Ara Framework
+
+The [Ara Framework](https://ara-framework.github.io/website/) was the closest to our target architecture, with it's [Nova Proxy](https://github.com/ara-framework/nova-proxy) acting as a transformation layer and reverse proxy infront of an upstream website that contained fragments. Unfortunately, there are a number of shortcomings that would prevent us from using it.
+
+- It lacks a mechanism to expose component scripts and stylesheets to the composed view. This is known by the author, and on the roadmap to implement ([GitHub - Inject client scripts URLs from Hypernova response](https://github.com/ara-framework/nova-proxy/issues/10)). Without this, client side code for components becomes much more difficult.
+- If an error occurs when rendering a component, this does not log to `stdout` on the service, or the client's `console` - it appears as a message in the returned HTML, with no stack trace. We would need greater logging and resilience before putting this in front of our production systems.
+- Ara's component services, or "Novas", leverage [Airbnb's Hypernova](https://github.com/airbnb/hypernova) for server side rendering. The framework advocates for a 1:1 relationship between services and components, which misses out on Hypernova's parallel rendering, and adds more overhead.
+
+Ultimately, all of these issues are surmountable with development work. However, the Ara Framework is supported by a single developer and does not appear to be used in production, so it's future is uncertain. We could support the library, building the features we need, but this would require considerable investment, especially as it is written in a language we are not familiar with (Go).
