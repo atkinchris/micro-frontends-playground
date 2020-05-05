@@ -1,7 +1,8 @@
 import { ServerResponse, OutgoingHttpHeaders } from 'http'
-import RequestWithContext from './RequestWithContext'
 
-const patchResponse = (req: RequestWithContext, res: ServerResponse) => {
+import { Context } from './types'
+
+const patchWriteHead = (res: ServerResponse, context: Context) => {
   const originalWriteHead = res.writeHead.bind(res)
 
   // writeHead is an overloaded method, and the spread prop typing is too loose
@@ -11,15 +12,15 @@ const patchResponse = (req: RequestWithContext, res: ServerResponse) => {
       return originalWriteHead(statusCode, ...rest)
     }
 
-    const incomingHeaders: OutgoingHttpHeaders | undefined = typeof rest[0] === 'string' ? rest[1] : rest[0]
+    // Get headers based on number of arguments passed, as this method can be overloaded
+    const headers: OutgoingHttpHeaders | undefined = typeof rest[0] === 'string' ? rest[1] : rest[0]
     const reasonPhrase: string | undefined = typeof rest[0] === 'string' ? rest[0] : undefined
-    const patchedHeaders = {
-      ...req.context?.headers.raw(),
-      ...incomingHeaders,
-    }
 
-    delete patchedHeaders['content-length']
-    delete patchedHeaders['content-encoding']
+    // Combine headers from arguments with headers from the context
+    const patchedHeaders = {
+      ...context.headersToAddToResponse,
+      ...headers,
+    }
 
     if (reasonPhrase) {
       return originalWriteHead(statusCode, reasonPhrase, patchedHeaders)
@@ -29,4 +30,4 @@ const patchResponse = (req: RequestWithContext, res: ServerResponse) => {
   }
 }
 
-export default patchResponse
+export default patchWriteHead

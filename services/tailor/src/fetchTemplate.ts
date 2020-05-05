@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 
 import constants from './constants'
-import RequestWithContext from './RequestWithContext'
+import { RequestWithContext } from './types'
 
 const fetchTemplate = async (request: RequestWithContext, parseTemplate: Function) => {
   const url = `${constants.UPSTREAM_URL}${request.url}`
@@ -11,7 +11,15 @@ const fetchTemplate = async (request: RequestWithContext, parseTemplate: Functio
     method: request.method,
   })
 
-  request.context = { headers: response.headers }
+  // Get headers from the upstream response in object form
+  const responseHeaders = response.headers.raw()
+
+  // Remove response content specific headers, which would conflict with final content
+  delete responseHeaders['content-length']
+  delete responseHeaders['content-encoding']
+
+  // Add add headers from upstream response to the request safe context object
+  request.context.headersToAddToResponse = responseHeaders
 
   let html = await response.text()
 

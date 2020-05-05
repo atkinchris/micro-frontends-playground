@@ -4,9 +4,10 @@ import Tailor from 'node-tailor'
 import httpProxy from 'http-proxy'
 import { extname } from 'path'
 
-import patchResponse from './patchResponse'
+import patchWriteHead from './patchWriteHead'
 import fetchTemplate from './fetchTemplate'
 import constants from './constants'
+import { Context, RequestWithContext } from './types'
 
 const { UPSTREAM_URL, PORT } = constants
 
@@ -19,6 +20,7 @@ const tailor = new Tailor({
 
 const proxy = httpProxy.createProxyServer()
 const server = http.createServer((req, res) => {
+  // Delete host from request headers, to prevent certificate errors when headers are passed
   delete req.headers.host
 
   // Read the incoming URL, and detect if the pathname has an extension
@@ -30,10 +32,16 @@ const server = http.createServer((req, res) => {
     return
   }
 
-  // Patch the response object to load in response properties from upstream
-  patchResponse(req, res)
+  // Build an empty, request safe context that we can use to move data around
+  const context: Context = {}
 
-  tailor.requestHandler(req, res)
+  // Attach context to the req object, that will be passed through Tailor
+  const requestWithContext: RequestWithContext = Object.assign(req, { context })
+
+  // Patch the writeHead method on the response object, to inject new headers before the request is ended by Tailor
+  patchWriteHead(res, context)
+
+  tailor.requestHandler(requestWithContext, res)
 })
 
 server.listen(PORT, () => {
