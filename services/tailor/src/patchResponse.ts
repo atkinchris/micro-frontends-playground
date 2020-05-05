@@ -19,6 +19,7 @@ const patchResponse = (req: RequestWithContext, res: ServerResponse) => {
     }
 
     delete patchedHeaders['content-length']
+    delete patchedHeaders['content-encoding']
 
     if (reasonPhrase) {
       return originalWriteHead(statusCode, reasonPhrase, patchedHeaders)
