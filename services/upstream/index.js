@@ -13,12 +13,10 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')
 app.disable('view cache')
 
-const port = process.env.PORT || 8080
+const { PORT = 8080, COMPONENT_URL } = process.env
 
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Example Website' })
+  res.render('index', { name: 'Chris', componentUrl: COMPONENT_URL })
 })
 
-app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
-)
+app.listen(PORT, () => console.log(`Example app listening at http://localhost:${PORT}`))

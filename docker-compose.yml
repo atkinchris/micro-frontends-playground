@@ -5,10 +5,9 @@ services:
     build: ./services/upstream
     ports:
       - 4000:4000
-    volumes:
-      - ./services/upstream:/usr/share/nginx/html:ro
     environment:
       PORT: 4000
+      COMPONENT_URL: http://component:3000
 
   tailor:
     build: ./services/tailor
@@ -17,3 +16,10 @@ services:
     environment:
       PORT: 8080
       UPSTREAM_URL: http://upstream:4000
+
+  component:
+    build: ./services/component
+    ports:
+      - 3000:3000
+    environment:
+      PORT: 3000

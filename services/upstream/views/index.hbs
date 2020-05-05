@@ -1,3 +1,12 @@
-{{>nova name="Header" data-title="Micro Frontends Playground" }}
-{{>nova name="Body" data-text="Welcome to my Micro Frontends Playground, where I can try out technology." }}
-{{>nova name="Footer" data-message="*chuckle* I'm in danger." }}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>My Website</title>
+</head>
+
+<body>
+  <fragment src="{{componentUrl}}/header?name={{name}}"></fragment>
+</body>
+
+</html>
