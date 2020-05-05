@@ -10,10 +10,12 @@ import constants from './constants'
 
 const { UPSTREAM_URL, PORT } = constants
 
-// Tailor has incorrect published types on their latest version
-// https://github.com/zalando/tailor/commit/7283c2f
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const tailor = new Tailor({ fetchTemplate: fetchTemplate as any })
+const tailor = new Tailor({
+  // Tailor has incorrect published types on their latest version
+  // https://github.com/zalando/tailor/commit/7283c2f
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fetchTemplate: fetchTemplate as any,
+})
 
 const proxy = httpProxy.createProxyServer()
 const server = http.createServer((req, res) => {
