@@ -13,9 +13,12 @@ const patchResponse = (req: RequestWithContext, res: ServerResponse) => {
 
     const incomingHeaders: OutgoingHttpHeaders | undefined = typeof rest[0] === 'string' ? rest[1] : rest[0]
     const reasonPhrase: string | undefined = typeof rest[0] === 'string' ? rest[0] : undefined
-    const patchedHeaders = { ...incomingHeaders, ...req.context?.headers.entries() }
+    const patchedHeaders = {
+      ...req.context?.headers.raw(),
+      ...incomingHeaders,
+    }
 
-    console.log('Patching headers', patchedHeaders)
+    delete patchedHeaders['content-length']
 
     if (reasonPhrase) {
       return originalWriteHead(statusCode, reasonPhrase, patchedHeaders)
