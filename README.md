@@ -18,6 +18,12 @@ This is a simple Node Express server, serving HTML that contains placeholders (a
 
 [Upstream](http://localhost:4000)
 
+### Tailor (`services/tailor`)
+
+This is a wrapper around [Zalando's Tailor](https://github.com/zalando/tailor), and is used to fetch HTML from the upstream, and replace placeholders with fragment components. It is modified to support fetching templates from upstream sites, along with relaying their headers and response codes, acting as a reverse proxy.
+
+[Upstream](http://localhost:8080)
+
 ## Author's Notes
 
 Below are my personal notes and observations on the current setup. They will change as the setup does.
@@ -33,7 +39,7 @@ Below are my personal notes and observations on the current setup. They will cha
 
 ## Decisions
 
-### Ara Framework
+### Ara Framework - Not Used
 
 The [Ara Framework](https://ara-framework.github.io/website/) was the closest to our target architecture, with it's [Nova Proxy](https://github.com/ara-framework/nova-proxy) acting as a transformation layer and reverse proxy infront of an upstream website that contained fragments. Unfortunately, there are a number of shortcomings that would prevent us from using it.
 
