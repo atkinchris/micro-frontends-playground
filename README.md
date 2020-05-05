@@ -39,6 +39,14 @@ Below are my personal notes and observations on the current setup. They will cha
 
 ## Decisions
 
+### General Requirements
+
+We want a way to extract components from a monolith system, allowing them to be independantly developed and deployed, while keeping the monolith for layout composing and state.
+
+- Components must be server side rendered. This gives users a better experience, with faster content, better SEO and support for non-JavaScript environments.
+- Components must be able to have additional client side scripts and styles. This is important for allowing components to be richly interactable, while allowing them to maintain their own dependencies and bundling.
+- Components must be deployable independantly. We must be able to develop and deploy a new version of a component without having to release a new version of the monolith.
+
 ### Ara Framework - Not Used
 
 The [Ara Framework](https://ara-framework.github.io/website/) was the closest to our target architecture, with it's [Nova Proxy](https://github.com/ara-framework/nova-proxy) acting as a transformation layer and reverse proxy infront of an upstream website that contained fragments. Unfortunately, there are a number of shortcomings that would prevent us from using it.
