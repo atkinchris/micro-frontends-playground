@@ -13,7 +13,12 @@ const fetchTemplate = async (request: RequestWithContext, parseTemplate: Functio
 
   request.context = { headers: response.headers }
 
-  const html = await response.text()
+  let html = await response.text()
+
+  // Rewrite Tu Clothing header to inject a demo fragment
+  html = html.replace(/<!-- Main Content Starts Here -->(.*)<!-- Main Content Ends Here -->/s, () => {
+    return '<fragment src="http://localhost:3000/header?name=Chris"></fragment>'
+  })
 
   return parseTemplate(html)
 }
