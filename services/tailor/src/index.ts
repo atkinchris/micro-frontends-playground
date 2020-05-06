@@ -17,10 +17,9 @@ const tailor = new Tailor({
   fetchTemplate: fetchTemplate as any,
 })
 
-const proxy = httpProxy.createProxyServer()
+const proxy = httpProxy.createProxyServer({secure: false})
 const server = http.createServer((req, res) => {
-  delete req.headers.host
-
+  // delete req.headers.host
   // Read the incoming URL, and detect if the pathname has an extension
   // This is to proxy requests for assets, rather than pages
   // This is very fragile, and will not work reliably
