@@ -23,10 +23,18 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
     return
   }
 
-  const contentEncoding = String(proxyRes.headers['content-encoding'])
-  const isCompressed = contentEncoding === 'gzip'
-  const decompress = isCompressed ? zlib.createGunzip() : new PassThrough()
-  const compress = isCompressed ? zlib.createGzip() : new PassThrough()
+  // We're about to alter the content, so remove existing "content-length".
+  // Compressing the content forces transfer encoding to chunked,
+  // so there's no need to recalculate "content-length" as it's non-trivial.
+  res.removeHeader('content-length')
+
+  // We're compressing the transformed content, so set content-encoding to 'gzip'
+  res.setHeader('content-encoding', 'gzip')
+
+  const upstreamContentEncoding = String(proxyRes.headers['content-encoding'])
+  const isUpstreamCompressed = upstreamContentEncoding === 'gzip'
+  const decompress = isUpstreamCompressed ? zlib.createGunzip() : new PassThrough()
+  const compress = zlib.createGzip()
 
   const transform = new Transform({
     objectMode: true,
