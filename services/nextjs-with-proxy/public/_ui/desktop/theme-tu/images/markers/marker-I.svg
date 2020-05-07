@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="25px" viewBox="0 0 18 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Store I</title>
+    <desc>Store I</desc>
+    <g id="Marker-I" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M9.053,23 C13.577,17.9011428 17,12.3260243 17,8.70194184 C17,4.47077952 13.428,1 9.053,1 C4.587,1 1,4.45647124 1,8.70194184 C1,12.30865 4.417,17.7917867 9.053,23 Z" id="Path" stroke="#000000" stroke-width="2" fill="#000000"></path>
+        <polygon id="I" fill="#FFFFFF" fill-rule="nonzero" points="9.768 14 8.184 14 8.184 4.4 9.768 4.4"></polygon>
+    </g>
+</svg>

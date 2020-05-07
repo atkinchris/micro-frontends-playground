@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "name": "Tu Clothing",
+  "description": "TU clothing pre-build",
+  "icons": {
+    "60": "/_ui/2017/assets/favicons/firefox_app_60x60.png",
+    "128": "/_ui/2017/assets/favicons/firefox_app_128x128.png",
+    "512": "/_ui/2017/assets/favicons/firefox_app_512x512.png"
+  },
+  "developer": {
+    "name": "JSainsbury PLC",
+    "url": null
+  }
+}

@@ -1,0 +1,23 @@
+{
+	"name": "Tuclothing",
+	"short_name": "Tuclothing",
+	"icons": [
+		{
+			"src": "_ui/mobile/theme-tu/images/android-chrome-144x144.png",
+			"sizes": "144x144",
+			"type": "image/png"
+		},
+		{
+      "src": "_ui/mobile/theme-tu/images/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+	],
+	"prefer_related_applications": true,
+	"related_applications": [
+		{
+			"platform": "play",
+			"id": "com.sainsburys.tu"
+		}
+	]
+}

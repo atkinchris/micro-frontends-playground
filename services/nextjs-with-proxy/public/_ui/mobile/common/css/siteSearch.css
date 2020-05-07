@@ -1,0 +1,92 @@
+/*
+### Site Search
+********************************************************************/
+
+.siteSearch{
+	float:right;
+}
+
+.siteSearch .control-group{
+	width:290px;
+}
+
+.siteSearch .siteSearchInput{
+	padding-right:35px !important;
+
+}
+
+.siteSearch .siteSearchSubmit {
+  background: url("../images/storesFacetSearchIcon.png") no-repeat scroll center center transparent;
+  border: 0 none;
+  display: block;
+  float: right;
+  height: 28px;
+  margin: 1px 1px 1px -30px;
+  padding: 0;
+  width: 28px;
+}
+
+/*
+  ui-autocomplete
+  */
+
+
+#header input#search {
+	z-index:10000;
+	padding: 6px 0 0;
+	text-indent:10px;
+}
+
+.ui-autocomplete{
+	z-index:10000 !important;
+    border: 2px solid #d9d9d6;
+	margin:0;
+	float:none;
+}
+
+.ui-autocomplete .ui-menu-item{
+	border-top: 1px solid #d9d9d6;
+}
+
+.ui-autocomplete .ui-menu-item:first-child{
+	border-top: 0;
+}
+
+.ui-autocomplete .ui-menu-item a,
+.ui-autocomplete .ui-menu-item a:hover{
+	display:block;
+	color:#767676;
+	line-height:40px;
+	border:none;
+}
+
+.ui-autocomplete .ui-menu-item .ui-state-hover{
+	background:#efefef;
+}
+
+.ui-autocomplete .ui-menu-item .thumb{
+	float:left;
+	width:76px;
+	height:76px;
+}
+
+.ui-autocomplete .ui-menu-item .thumb img{
+	width:100%;
+	height:auto;
+}
+
+.ui-autocomplete .ui-menu-item .desc{
+	margin:10px 10px 0 100px;
+}
+
+.ui-autocomplete .ui-menu-item .desc .title{
+	float:left;
+	white-space: normal;
+	width: 115px;
+	display:block;
+}
+
+.ui-autocomplete .ui-menu-item .desc .price{
+	float:right;
+	font-weight:700  !important;
+}
