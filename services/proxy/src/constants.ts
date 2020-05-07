@@ -9,7 +9,7 @@ const constants: Constants = {
     const { UPSTREAM_URL } = process.env
 
     if (!UPSTREAM_URL) {
-      throw Error('Environmanet variable UPSTREAM_URL is required and not set')
+      throw Error('Environment variable "UPSTREAM_URL" is required and not set')
     }
 
     return UPSTREAM_URL
