@@ -10,55 +10,68 @@ const { UPSTREAM_URL, PORT } = constants
 
 const proxy = httpProxy.createProxyServer({ secure: false, selfHandleResponse: true })
 
-proxy.on('proxyRes', (proxyRes, req, res) => {
-  const contentType = String(proxyRes.headers['content-type'])
+proxy.on('proxyRes', (upstreamResponse, req, res) => {
+  // Get the content type from the upstream response
+  const contentType = String(upstreamResponse.headers['content-type'])
 
-  // Copy all headers from the upstream to the response
-  // I don't know why this isn't handled when piping the request
-  Object.entries(proxyRes.headers).forEach(([key, value]) => {
+  // Copy all headers from the upstream to the new response
+  Object.entries(upstreamResponse.headers).forEach(([key, value]) => {
     res.setHeader(key, value)
   })
 
+  // We're only transforming HTML content, so any other content can be piped back now
   if (!contentType.includes('text/html')) {
-    proxyRes.pipe(res)
+    upstreamResponse.pipe(res)
     return
   }
 
-  // We're about to alter the content, so remove existing "content-length".
+  // We're about to modify the content, so remove existing "content-length".
   res.removeHeader('content-length')
 
-  // We're compressing the transformed content, so set content-encoding to 'gzip'
+  // We're not compressing the transformed content, so remove existing content-encoding
   res.setHeader('content-encoding', 'gzip')
 
-  const upstreamContentEncoding = String(proxyRes.headers['content-encoding'])
+  // Check the upstream content encoding to determine if it is compressed
+  const upstreamContentEncoding = String(upstreamResponse.headers['content-encoding'])
   const isUpstreamCompressed = upstreamContentEncoding === 'gzip'
 
-  const upstreamTransferEncoding = String(proxyRes.headers['transfer-encoding'])
-  const isUpstreamChunked = upstreamTransferEncoding === 'chunked'
-
+  // Create a decompression stream if required, otherwise passthrough
   const decompress = isUpstreamCompressed ? zlib.createGunzip() : new PassThrough()
-  const compress = isUpstreamCompressed ? zlib.createGzip() : new PassThrough()
 
+  // Build the stream transformer for modifying the content
   const transform = new Transform({
     transform(chunk: Buffer, encoding, callback) {
       callback(null, Buffer.concat([Buffer.from('<-- NobodySpeak -->'), chunk]))
     },
   })
 
-  const transformedContent = proxyRes.pipe(decompress).pipe(transform).pipe(compress)
+  // Pipe the upstream response through the decompression and transformer.
+  const transformedContent = upstreamResponse.pipe(decompress).pipe(transform)
 
-  if (isUpstreamChunked) {
+  // Check the incoming request's transfer-encoding preference
+  const requestedTransferEncoding = String(req.headers['transfer-encoding'])
+  const isChunkedResponseAllowed =
+    requestedTransferEncoding.includes('chunked') || requestedTransferEncoding.includes('*')
+
+  // If chunked responses are allowed, pipe the response now.
+  // Otherwise combine the content into a non-chunked response.
+  if (isChunkedResponseAllowed) {
     transformedContent.pipe(res)
   } else {
     const dechunk = new DechunkStream((content) => {
+      // Calculate content-length and set it on the response
       const contentLength = content.byteLength
-
       res.setHeader('content-length', contentLength)
+
+      // Remove any transfer-encoding
       res.removeHeader('transfer-encoding')
+
+      // Write the content and send the response
       res.write(content)
       res.end()
     })
 
+    // Pipe the transformed content into the dechunking stream
     transformedContent.pipe(dechunk)
   }
 })
