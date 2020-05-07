@@ -28,15 +28,21 @@ proxy.on('proxyRes', (upstreamResponse, req, res) => {
   // We're about to modify the content, so remove existing "content-length".
   res.removeHeader('content-length')
 
-  // We're not compressing the transformed content, so remove existing content-encoding
-  res.removeHeader('content-encoding')
-
   // Check the upstream content encoding to determine if it is compressed
   const upstreamContentEncoding = String(upstreamResponse.headers['content-encoding'])
   const isUpstreamCompressed = upstreamContentEncoding === 'gzip'
 
   // Create a decompression stream if required, otherwise passthrough
   const decompress = isUpstreamCompressed ? zlib.createGunzip() : new PassThrough()
+
+  // If upstream was compressed, we'll compress the response too
+  const compress = isUpstreamCompressed ? zlib.createGzip() : new PassThrough()
+
+  if (!isUpstreamCompressed) {
+    // We're not compressing the transformed content, if it wasn't already,
+    // so remove existing content-encoding
+    res.removeHeader('content-encoding')
+  }
 
   // Build the stream transformer for modifying the content
   const transform = new Transform({
@@ -46,7 +52,7 @@ proxy.on('proxyRes', (upstreamResponse, req, res) => {
   })
 
   // Pipe the upstream response through the decompression and transformer.
-  const transformedContent = upstreamResponse.pipe(decompress).pipe(transform)
+  const transformedContent = upstreamResponse.pipe(decompress).pipe(transform).pipe(compress)
 
   // Check the incoming request's transfer-encoding preference
   const requestedTransferEncoding = String(req.headers['transfer-encoding'])
