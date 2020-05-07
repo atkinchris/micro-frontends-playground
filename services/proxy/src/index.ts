@@ -29,7 +29,7 @@ proxy.on('proxyRes', (upstreamResponse, req, res) => {
   res.removeHeader('content-length')
 
   // We're not compressing the transformed content, so remove existing content-encoding
-  res.setHeader('content-encoding', 'gzip')
+  res.removeHeader('content-encoding', 'gzip')
 
   // Check the upstream content encoding to determine if it is compressed
   const upstreamContentEncoding = String(upstreamResponse.headers['content-encoding'])
