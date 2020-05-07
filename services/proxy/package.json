@@ -1,5 +1,5 @@
 {
-  "name": "tailor",
+  "name": "proxy",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -19,14 +19,11 @@
     "watch": "src"
   },
   "dependencies": {
-    "http-proxy": "^1.18.0",
-    "node-fetch": "^2.6.0",
-    "node-tailor": "^3.9.2"
+    "http-proxy": "^1.18.0"
   },
   "devDependencies": {
     "@types/http-proxy": "^1.17.4",
     "@types/node": "^13.13.4",
-    "@types/node-fetch": "^2.5.7",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "dotenv": "^8.2.0",
