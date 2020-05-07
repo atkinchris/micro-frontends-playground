@@ -1,9 +1,10 @@
 import http from 'http'
 import httpProxy from 'http-proxy'
 import zlib from 'zlib'
-import { pipeline, Transform, PassThrough } from 'stream'
+import { Transform, PassThrough } from 'stream'
 
 import constants from './constants'
+import DechunkStream from './DechunkStream'
 
 const { UPSTREAM_URL, PORT } = constants
 
@@ -24,8 +25,6 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
   }
 
   // We're about to alter the content, so remove existing "content-length".
-  // Compressing the content forces transfer encoding to chunked,
-  // so there's no need to recalculate "content-length" as it's non-trivial.
   res.removeHeader('content-length')
 
   // We're compressing the transformed content, so set content-encoding to 'gzip'
@@ -33,17 +32,35 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
 
   const upstreamContentEncoding = String(proxyRes.headers['content-encoding'])
   const isUpstreamCompressed = upstreamContentEncoding === 'gzip'
+
+  const upstreamTransferEncoding = String(proxyRes.headers['transfer-encoding'])
+  const isUpstreamChunked = upstreamTransferEncoding === 'chunked'
+
   const decompress = isUpstreamCompressed ? zlib.createGunzip() : new PassThrough()
-  const compress = zlib.createGzip()
+  const compress = isUpstreamCompressed ? zlib.createGzip() : new PassThrough()
 
   const transform = new Transform({
-    objectMode: true,
     transform(chunk: Buffer, encoding, callback) {
       callback(null, Buffer.concat([Buffer.from('<-- NobodySpeak -->'), chunk]))
     },
   })
 
-  pipeline(proxyRes, decompress, transform, compress, res)
+  const transformedContent = proxyRes.pipe(decompress).pipe(transform).pipe(compress)
+
+  if (isUpstreamChunked) {
+    transformedContent.pipe(res)
+  } else {
+    const dechunk = new DechunkStream((content) => {
+      const contentLength = content.byteLength
+
+      res.setHeader('content-length', contentLength)
+      res.removeHeader('transfer-encoding')
+      res.write(content)
+      res.end()
+    })
+
+    transformedContent.pipe(dechunk)
+  }
 })
 
 const server = http.createServer((req, res) => {
