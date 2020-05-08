@@ -33,6 +33,7 @@ This applications supports passing configuration via environment variables.
 
 - `PORT` - this is the port that the service will be bound to (default: `8080`).
 - `UPSTREAM_URL` - this is the upstream URL to request templates from. It must be set.
+- `COMPRESS_TRANSFORMED_CONTENT` - set to `"true"` if the transformed content should be compressed by gzip.
 
 ### Dot Env
 
