@@ -2,6 +2,8 @@ import http from 'http'
 import httpProxy from 'http-proxy'
 import zlib from 'zlib'
 import { Transform, PassThrough } from 'stream'
+import RewritingStream from 'parse5-html-rewriting-stream'
+import fetch from 'node-fetch'
 
 import constants from './constants'
 import DechunkStream from './DechunkStream'
@@ -34,6 +36,8 @@ proxy.on('proxyRes', (upstreamResponse, req, res) => {
 
   // Create a decompression stream if required, otherwise passthrough
   const decompress = isUpstreamCompressed ? zlib.createGunzip() : new PassThrough()
+  // Encoding needs to be utf8 to ensure the downstream HTML parser can read the content
+  decompress.setEncoding('utf8')
 
   // If upstream was compressed, we'll compress the response too
   const compress = isUpstreamCompressed ? zlib.createGzip() : new PassThrough()
@@ -44,15 +48,50 @@ proxy.on('proxyRes', (upstreamResponse, req, res) => {
     res.removeHeader('content-encoding')
   }
 
-  // Build the stream transformer for modifying the content
+  // Build the stream transformer for modifying the content and injecting demo fragments
+  // Note: This is for demonstration purposes only.
   const transform = new Transform({
     transform(chunk: Buffer, encoding, callback) {
-      callback(null, Buffer.concat([Buffer.from('<-- NobodySpeak -->'), chunk]))
+      callback(null, `${chunk}<fragment type="namecard" name="Chris" />`)
     },
+    // Keep the content in utf8 for consumption by the HTML parser
+    encoding: 'utf8',
   })
 
-  // Pipe the upstream response through the decompression and transformer.
-  const transformedContent = upstreamResponse.pipe(decompress).pipe(transform).pipe(compress)
+  // Build the parse5 HTML stream rewriter
+  const rewriter = new RewritingStream()
+
+  // When an opening tag is emitted from the rewriter, perform the following action
+  rewriter.on('startTag', async (startTag) => {
+    // Emit non-fragment tags straight back to the stream
+    if (startTag.tagName !== 'fragment') {
+      rewriter.emitStartTag(startTag)
+      return
+    }
+
+    // Pause the upstream stream to prevent more content while we're processing
+    upstreamResponse.pause()
+
+    try {
+      // Fetch a random website to simulate calling a component registry
+      const response = await fetch('http://httpbin.org')
+
+      // If the response was OK, get the HTML and emit it to the stream
+      // We're ignoring errors for now, because this is a proof of concept
+      if (response.ok) {
+        const html = await response.text()
+        rewriter.emitRaw(html)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+
+    // Resume the upstream stream
+    upstreamResponse.resume()
+  })
+
+  // Pipe the upstream response through the streams.
+  const transformedContent = upstreamResponse.pipe(decompress).pipe(transform).pipe(rewriter).pipe(compress)
 
   // Check the incoming request's transfer-encoding preference
   const requestedTransferEncoding = String(req.headers['transfer-encoding'])
