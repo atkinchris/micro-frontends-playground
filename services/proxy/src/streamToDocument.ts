@@ -2,7 +2,7 @@ import { IncomingMessage } from 'http'
 import zlib from 'zlib'
 import ParserStream from 'parse5-parser-stream'
 import { Document } from 'parse5'
-import { PassThrough, pipeline } from 'stream'
+import { PassThrough } from 'stream'
 
 const streamToDocument = (upstreamResponse: IncomingMessage): Promise<Document> =>
   new Promise((resolve, reject) => {
@@ -17,16 +17,14 @@ const streamToDocument = (upstreamResponse: IncomingMessage): Promise<Document> 
 
     const parser = new ParserStream<Document>()
 
-    parser.once('finish', () => {
-      resolve(parser.document)
-    })
+    parser.once('finish', () => resolve(parser.document))
+
+    // Reject the Promise on any errors
+    decompress.on('error', reject)
+    parser.on('error', reject)
 
     // Pipe the upstream response through the streams.
-    const streamPipeline = pipeline(upstreamResponse, decompress, parser)
-
-    streamPipeline.on('error', (error) => {
-      reject(error)
-    })
+    upstreamResponse.pipe(decompress).pipe(parser)
   })
 
 export default streamToDocument
