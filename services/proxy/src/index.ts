@@ -1,15 +1,12 @@
 import http from 'http'
 import httpProxy from 'http-proxy'
-import { serialize } from 'parse5'
-import { gzip as gzipWithCallback } from 'zlib'
-import { promisify } from 'util'
 
 import constants from './constants'
 import streamToDocument from './streamToDocument'
+import respondWithDocument from './respondWithDocument'
 
-const { UPSTREAM_URL, PORT, COMPRESS_TRANSFORMED_CONTENT } = constants
+const { UPSTREAM_URL, PORT } = constants
 
-const gzip = promisify<Buffer, Buffer>(gzipWithCallback)
 const proxy = httpProxy.createProxyServer({ secure: false, selfHandleResponse: true })
 
 proxy.on('proxyRes', async (upstreamResponse, req, res) => {
@@ -27,35 +24,11 @@ proxy.on('proxyRes', async (upstreamResponse, req, res) => {
     return
   }
 
-  // We're about to modify the content, so remove existing "content-length" and "content-encoding".
-  res.removeHeader('content-length')
-  res.removeHeader('content-encoding')
-
   // Convert the upstream response into a HTML Document
   const document = await streamToDocument(upstreamResponse)
 
-  // Serialise the document to a HTML string
-  const html = serialize(document)
-
-  // Convert the string to a Buffer, for byte length and sending
-  let htmlBuffer = Buffer.from(html)
-
-  // Only compress the content if enabled
-  if (COMPRESS_TRANSFORMED_CONTENT) {
-    // Compress the HTML buffer with gzip
-    htmlBuffer = await gzip(htmlBuffer)
-
-    // Calculate content-length and set it on the response
-    res.setHeader('content-encoding', 'gzip')
-  }
-
-  // Calculate content-length and set it on the response
-  const contentLength = htmlBuffer.byteLength
-  res.setHeader('content-length', contentLength)
-
-  // Write the content and send the response
-  res.write(htmlBuffer)
-  res.end()
+  // Respond with the HTML Document
+  await respondWithDocument(res, document)
 })
 
 const server = http.createServer((req, res) => {
