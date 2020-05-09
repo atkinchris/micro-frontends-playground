@@ -22,7 +22,7 @@ This is a simple Node Express server, serving HTML that contains placeholders (a
 
 This is a wrapper around [Zalando's Tailor](https://github.com/zalando/tailor), and is used to fetch HTML from the upstream, and replace placeholders with fragment components. It is modified to support fetching templates from upstream sites, along with relaying their headers and response codes, acting as a reverse proxy.
 
-[Upstream](http://localhost:8080)
+[Proxy](http://localhost:8080)
 
 ## Author's Notes
 
