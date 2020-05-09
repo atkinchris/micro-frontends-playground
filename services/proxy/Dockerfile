@@ -1,4 +1,4 @@
-FROM node:10-alpine as builder
+FROM node:12-alpine as builder
 
 WORKDIR /build
 
@@ -7,7 +7,7 @@ RUN npm install
 RUN npm run build
 
 # Main container
-FROM node:10-alpine
+FROM node:12-alpine
 ENV NODE_ENV=production
 
 WORKDIR /app
