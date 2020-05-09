@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "http-proxy": "^1.18.0",
-    "node-tailor": "git+https://github.com/atkinchris/tailor.git"
+    "node-tailor": "https://github.com/atkinchris/tailor/releases/download/3.9.2/node-tailor-3.9.2.tgz"
   },
   "devDependencies": {
     "@types/http-proxy": "^1.17.4",

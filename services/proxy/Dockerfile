@@ -1,6 +1,5 @@
 FROM node:12-alpine as builder
 RUN apk update && apk upgrade && apk add --no-cache \
-  git \
   openssh
 
 WORKDIR /build
@@ -12,7 +11,6 @@ RUN npm run build
 # Main container
 FROM node:12-alpine
 RUN apk update && apk upgrade && apk add --no-cache \
-  git \
   openssh
 
 ENV NODE_ENV=production
