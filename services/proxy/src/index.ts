@@ -25,7 +25,17 @@ proxy.on('proxyRes', async (upstreamResponse, req, res) => {
   }
 
   // Convert the upstream response into a HTML string
-  const html = await streamToString(upstreamResponse)
+  let html = await streamToString(upstreamResponse)
+
+  // DEMO: Replace the banner on the homepage with a fragment
+  html = html.replace(
+    /(<main.*?)<section\b[^>]*>(.*?)<\/section>/s,
+    `$1
+    <section class="tu-homepage__container ln-u-soft-bottom ln-u-soft-top tu-homepage__container--fullwidth">
+      <fragment src="http://localhost:3000"/>
+    </section>
+    `
+  )
 
   // We're about to modify the content, so remove existing "content-length" and "content-encoding".
   res.removeHeader('content-length')

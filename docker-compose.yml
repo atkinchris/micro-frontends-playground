@@ -1,13 +1,14 @@
-version: "3.1"
+version: '3.1'
 
 services:
-  # upstream:
-  #   build: ./services/upstream
-  #   ports:
-  #     - 4000:4000
-  #   environment:
-  #     PORT: 4000
-  #     COMPONENT_URL: http://localhost:3000
+  upstream:
+    build: ./services/upstream
+    ports:
+      - 4000:4000
+    environment:
+      PORT: 4000
+      COMPONENT_URL: http://localhost:3000
+
   proxy:
     build: ./services/proxy
     ports:
@@ -15,9 +16,10 @@ services:
     environment:
       PORT: 8080
       UPSTREAM_URL: https://tuclothing.sainsburys.co.uk
-  # component:
-  #   build: ./services/component
-  #   ports:
-  #     - 3000:3000
-  #   environment:
-  #     PORT: 3000
+
+  component:
+    build: ./services/component
+    ports:
+      - 3000:3000
+    environment:
+      PORT: 3000
