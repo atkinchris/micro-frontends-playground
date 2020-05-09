@@ -1,9 +1,9 @@
 import http from 'http'
 import httpProxy from 'http-proxy'
+import Tailor from 'node-tailor'
 
 import constants from './constants'
-import streamToDocument from './streamToDocument'
-import respondWithDocument from './respondWithDocument'
+import streamToString from './streamToString'
 
 const { UPSTREAM_URL, PORT } = constants
 
@@ -24,11 +24,25 @@ proxy.on('proxyRes', async (upstreamResponse, req, res) => {
     return
   }
 
-  // Convert the upstream response into a HTML Document
-  const document = await streamToDocument(upstreamResponse)
+  // Convert the upstream response into a HTML string
+  const html = await streamToString(upstreamResponse)
 
-  // Respond with the HTML Document
-  await respondWithDocument(res, document)
+  // We're about to modify the content, so remove existing "content-length" and "content-encoding".
+  res.removeHeader('content-length')
+  res.removeHeader('content-encoding')
+
+  // Create an instance of Tailor with the HTML as the template
+  const tailor = new Tailor({
+    fetchTemplate: (_req, parseTemplate) => parseTemplate(html),
+  })
+
+  // Log errors from Tailor, which are otherwise suppressed
+  tailor.on('error', (_req, error) => {
+    console.error(error)
+  })
+
+  // Use Tailor to handle the request and response
+  tailor.requestHandler(req, res)
 })
 
 const server = http.createServer((req, res) => {

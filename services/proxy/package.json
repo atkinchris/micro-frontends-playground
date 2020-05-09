@@ -20,15 +20,11 @@
   },
   "dependencies": {
     "http-proxy": "^1.18.0",
-    "node-fetch": "^2.6.0",
-    "parse5": "^6.0.0",
-    "parse5-parser-stream": "^6.0.0"
+    "node-tailor": "git+https://github.com/atkinchris/tailor.git"
   },
   "devDependencies": {
     "@types/http-proxy": "^1.17.4",
     "@types/node": "^13.13.4",
-    "@types/node-fetch": "^2.5.7",
-    "@types/parse5-parser-stream": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "dotenv": "^8.2.0",
