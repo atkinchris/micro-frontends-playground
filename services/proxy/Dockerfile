@@ -14,6 +14,10 @@ RUN npm run build
 FROM node:12-alpine
 ENV NODE_ENV=production
 
+RUN apk update && apk upgrade && apk add --no-cache \
+  git \
+  openssh
+
 WORKDIR /app
 
 COPY package*.json ./
