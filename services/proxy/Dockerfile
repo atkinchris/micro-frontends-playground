@@ -2,6 +2,10 @@ FROM node:12-alpine as builder
 
 WORKDIR /build
 
+RUN apk update && apk upgrade && apk add --no-cache \
+  git \
+  openssh
+
 COPY . ./
 RUN npm install
 RUN npm run build
