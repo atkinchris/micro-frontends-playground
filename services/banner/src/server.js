@@ -1,6 +1,7 @@
 import express from 'express'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
+import path from 'path'
 
 import App from './components/App'
 import constants from './constants'
@@ -10,7 +11,7 @@ const assets = require(process.env.RAZZLE_ASSETS_MANIFEST)
 const server = express()
 server
   .disable('x-powered-by')
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+  .use(express.static(path.join(__dirname, 'public')))
   .get('/*', (req, res) => {
     const markup = renderToString(<App />)
 
