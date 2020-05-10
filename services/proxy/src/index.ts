@@ -33,7 +33,7 @@ proxy.on('proxyRes', async (upstreamResponse, req, res) => {
     /(<main.*?)<section\b[^>]*>(.*?)<\/section>/s,
     `$1
     <section class="tu-homepage__container ln-u-soft-bottom ln-u-soft-top tu-homepage__container--fullwidth">
-      <fragment src="http://localhost:3000" name="Chris"/>
+      <fragment src="http://banner:3000" fallback-src="http://localhost:3000" name="Chris"/>
     </section>
     `
   )
