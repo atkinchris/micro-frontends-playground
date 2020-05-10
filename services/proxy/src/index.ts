@@ -1,6 +1,7 @@
 import http from 'http'
 import httpProxy from 'http-proxy'
 import Tailor from 'node-tailor'
+import tracer from 'ctrace-js'
 
 import constants from './constants'
 import streamToString from './streamToString'
@@ -44,6 +45,7 @@ proxy.on('proxyRes', async (upstreamResponse, req, res) => {
   // Create an instance of Tailor with the HTML as the template
   const tailor = new Tailor({
     fetchTemplate: (_req, parseTemplate) => parseTemplate(html),
+    tracer,
   })
 
   // Log errors from Tailor, which are otherwise suppressed
