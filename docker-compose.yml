@@ -17,8 +17,8 @@ services:
       PORT: 8080
       UPSTREAM_URL: https://tuclothing.sainsburys.co.uk
 
-  component:
-    build: ./services/component
+  banner:
+    build: ./services/banner
     ports:
       - 3000:3000
     environment:
