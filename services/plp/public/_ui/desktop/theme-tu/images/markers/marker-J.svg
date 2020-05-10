@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="25px" viewBox="0 0 18 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Store J</title>
+    <desc>Store J</desc>
+    <g id="Marker-J" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M9.053,23 C13.577,17.9011428 17,12.3260243 17,8.70194184 C17,4.47077952 13.428,1 9.053,1 C4.587,1 1,4.45647124 1,8.70194184 C1,12.30865 4.417,17.7917867 9.053,23 Z" id="Path" stroke="#000000" stroke-width="2" fill="#000000"></path>
+        <path d="M5.54,13.392 L6.292,12.144 L6.35865625,12.1942031 C6.5475625,12.328875 7.122,12.688 7.876,12.688 C9.092,12.688 9.716,12.048 9.732,10.512 L9.732,4.4 L11.316,4.4 L11.316,10.816 C11.3,12.832 10.228,14.224 7.972,14.224 C6.356,14.224 5.556,13.408 5.54,13.392 Z" id="J" fill="#FFFFFF" fill-rule="nonzero"></path>
+    </g>
+</svg>

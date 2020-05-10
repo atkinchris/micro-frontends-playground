@@ -1,0 +1,347 @@
+/* ====================================================================================
+Date:	10/17/12
+
+STRUCTURE
+	Global   |   Forms   |   Header   |   Navigation   |   Breadcrumb   |   Content   |   Footer
+
+PRODUCTS
+	Category   |   Teaser   |   Detail   |   Tabs
+
+STOREFINDER
+	Overview   |   Detail
+
+CHECKOUT
+	Summary   |   Multistep   |   Confirmation   |   PopUps
+
+MESSAGES
+	Information   |   Confirmation   |   Error
+
+PAGES
+	Register/ Login  |  Basket/ Cart | My Account
+
+==================================================================================== */
+
+/* ====================================================================================
+
+SYNTAX
+
+background-image: url(url); - without '' or ""
+background-color: or color: #FFFFFF - no shorthand notation
+==================================================================================== */
+
+/* ======================================================== */
+/*	STRUCTURE												*/
+/* ======================================================== */
+
+/*	=> GLOBAL */
+
+
+.form_field-input input[type=text],
+.form_field-input textarea,
+.form_field-input select,
+.form_field-input input[type=password] {
+    height: 37px;
+    margin: 0 5px 10px 0;
+    border: 1px solid #767676;
+}
+/*	=> DETAIL
+********************************************************************/
+
+.prod_image_main .missingImage{
+    height:400px;
+}
+
+
+.selectBox.form_field_error{
+    background: white;
+    border: 2px solid #ba0c09;
+    line-height: 26px;
+    height: 26px;
+    color:inherit;
+}
+
+.qtyBox.form_field_error-message{
+    width:100%;
+}
+
+.productHeadSection{
+    margin: 10px;
+}
+/*	=> TABS
+************************************************************/
+
+.variant_options .label{
+    width:100%;
+}
+
+select#Size, select#qty{
+    margin-right: 5px;
+    padding: 3px 0 3px 0;
+    width: 100%;
+}
+/*	=> CART
+************************************************************/
+#basketTopHeader{
+    display:block;
+    width:100%;
+    text-align: center;
+    background-color: #f6f6f6;
+    padding:20px 10px;
+    font-weight:700;
+}
+
+a.clickCollect.ui-link {
+	font-weight: 700 !important;
+	text-decoration: underline;
+}
+
+.cartListItem .product_details {
+    width: 60%;
+    vertical-align: top;
+    display:block;
+    float:left;
+}
+.cartListItem .product_image img{
+    width:100%;
+}
+
+.basketRemoveProdContainer{
+    float:left;
+}
+
+a.selectBox-dropdown {
+    min-width: 100px;
+}
+.qtyForm{
+    width:100%;
+    margin-top:20px;
+}
+.qtyForm select{
+    width:100px;
+}
+.qtyForm .showMessage{
+  position: relative;
+  top: -5px;
+}
+
+.basketSecureContainer{
+    width:100%;
+}
+
+.basketOrderTotals {
+     float: left;
+     margin-top: 25px;
+     background: none;
+     width: 100%;
+ }
+
+.basketVoucherSavingsDescription, .basketVoucherSavingsValue{
+  float:left;
+	color: #f00;
+  line-height: 20px;
+}
+
+
+.basketVoucherRemoveBtn input[type="submit"]{
+    background-color: #FFFFFF;
+    font-size: 14px;
+    margin: 0;
+    padding: 0 10px;
+}
+
+
+.basketOrderTotalsLeft ul li {
+    height: 70px;
+    width: 100%;
+    border-bottom: 2px solid #ffffff;
+    background: #f6f6f6;
+    display: table;
+    overflow: hidden;
+}
+
+.basketTotalsSavings {
+    color: #f00;
+    font-weight: inherit;
+}
+
+
+
+.basketPromoHolder{
+    margin:0;
+    width: 100%;
+}
+
+/*
+## CATEGORY/SEARCH RESULT PAGE
+********************************************************************/
+#sort_form1 .selectBox.sortOptions.prodFoundSortFormSelect.selectBox-dropdown {
+    min-width: 150px;
+}
+.pagination {
+    border: none;
+}
+
+.title_holder {
+  padding: 0 10px;
+}
+
+.nav_column, .nav_column .item {
+    margin: 0;
+}
+
+.nav_column .item {
+    border-bottom: solid 1px #767676;
+}
+
+
+.nav_column .item .category span.dropdown {
+    border: none;
+    top: -4px;
+}
+
+.nav_column .item .category span.dropdown .dropdown-img {
+    background-position: 0 0;
+    height: 12px;
+    width: 8px;
+}
+
+
+
+/*
+## Homepage
+********************************************************************/
+/**************Content Blocks for homepage ****************/
+/*Temporary styling for demo. should be replace once there's accordion plugin*/
+
+#top-disp-img{
+    overflow:hidden;
+}
+
+/*
+## STOREFINDER
+********************************************************************/
+
+
+
+/*
+## ADJUST TEMPLATE SIZE FROM DESKTOP
+********************************************************************/
+.basketContentTable {
+    background: #ffffff;
+    width: 300px;
+    margin: 35px 0 20px -10px;
+}
+
+.frame_content {
+    width: 100%;/*990px;*/
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.template-pages-AccountPageTemplate #welcomeBanner {
+    position: relative;
+    width: 100%;/*990px;*/
+    min-height: 165px;
+}
+
+
+.page-checkout-login #page {
+    width: 100%;/*990px;*/
+    margin: 0 auto;
+}
+.basketContentTop {
+    width: 100%;/*990px;*/
+}
+.cust_acc {
+    width: 100%;/*990px;*/
+    height: 625px;
+}
+.storeLocatorContainer div.item_container {
+    width: 286px;
+}
+.pageLabel-multiStepCheckoutSummary #page {
+    width: 100%;/*990px;*/
+    margin: 0 auto;
+}
+
+.upselling .scroller {
+    padding: 40px 0 0 0;
+    width: 100%;/*990px;*/
+    margin: 0 auto;
+}
+.pickupSummaryItemRight tr:first-child.weekday_openings td {
+    border-top: none !important;
+}
+
+#basketContentTop {
+    width: 100%;/*990px;*/
+    margin-bottom:30px;
+}
+
+/*
+## SEARCH
+********************************************************************/
+.ui-menu-item{
+    display:block;
+    background-color: #FFFFFF;
+    width:100%;
+}
+
+#top_menu .bar {
+    margin: 0 auto;
+    width: 100%;/**990px;*/
+    height: 32px;
+    overflow: hidden;
+}
+
+#nav_cart_block {
+    width: 100%;/*990px;*/
+    height: 0;
+    margin: 0 auto;
+    position: relative;
+}
+
+#nav_block {
+    width: 100%;/*990px;*/
+    margin: 0 auto !important;
+    border-top: solid 2px #000000;
+    border-bottom: solid 2px #000000;
+    background-color: #ffffff;
+}
+#nav_block li.Lb {
+    width: 100%;/*990px;*/
+    margin: 0 auto;
+    float: none !important;
+    background-color: #ffffff;
+    border-top: solid 5px #000000;
+    border-bottom: solid 5px #000000;
+    z-index: 9999;
+}
+
+#breadcrumb ul {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    width: 100%;/*990px;*/
+    margin: 0 auto;
+}
+
+.footer-link-component {
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    width: 100%;/*990px;*/
+}
+
+.productResultsContainer {
+    height: 166px;
+    width: 100%;/*990px;*/
+    position: relative;
+    padding: 20px 0 20px 20px;
+    background: #d9d9d6;
+}
+
+.grey-background {
+    background-color: #d9d9d6;
+    padding: 5px;
+}
