@@ -4,6 +4,7 @@ import Tailor from 'node-tailor'
 
 import constants from './constants'
 import streamToString from './streamToString'
+import requestFragment from './requestFragment'
 
 const { UPSTREAM_URL, PORT } = constants
 
@@ -32,7 +33,7 @@ proxy.on('proxyRes', async (upstreamResponse, req, res) => {
     /(<main.*?)<section\b[^>]*>(.*?)<\/section>/s,
     `$1
     <section class="tu-homepage__container ln-u-soft-bottom ln-u-soft-top tu-homepage__container--fullwidth">
-      <fragment src="http://localhost:3000/header"/>
+      <fragment src="http://localhost:3000/header" name="Chris"/>
     </section>
     `
   )
@@ -43,6 +44,7 @@ proxy.on('proxyRes', async (upstreamResponse, req, res) => {
 
   // Create an instance of Tailor with the HTML as the template
   const tailor = new Tailor({
+    requestFragment,
     fetchTemplate: (_req, parseTemplate) => parseTemplate(html),
   })
 
