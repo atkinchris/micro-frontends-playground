@@ -9,7 +9,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')
 app.disable('view cache')
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3010
 
 app.get('/header', (req, res) => {
   const { name } = req.query
