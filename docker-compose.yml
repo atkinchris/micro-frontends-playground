@@ -22,12 +22,35 @@ services:
     networks:
       - tu
 
-  component:
-    build: ./services/component
+  header:
+    build: services/header
+    ports:
+      - 3010:3010
+    environment:
+      PORT: 3010
+    networks:
+      - tu
+
+  sort:
+    build: services/sortWithoutOC
+    ports:
+      - 3020:3020
+    environment:
+      PORT: 3020
+    networks:
+      - tu
+
+  stitcher:
+    build: ./services/stitcher
     ports:
       - 3000:3000
     environment:
       PORT: 3000
+      UPSTREAM_URL: https://host.docker.internal
+      HYBRIS_PORT: 9002
+      HEADER_PORT: 3010
+      SORT_PORT: 3020
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
     networks:
       - tu
 

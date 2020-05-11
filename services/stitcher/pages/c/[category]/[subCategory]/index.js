@@ -7,8 +7,6 @@ console.reportErrorsAsExceptions = false;
 export default function PLP({hybrisHtml, componentsWithHtml }) {
   const header = componentsWithHtml[1];
   const headerHtml = header.componentHtml;
-  console.log(header);
-  console.log(headerHtml);
   return (
     <>
       <div dangerouslySetInnerHTML={{__html: headerHtml}}></div>
@@ -21,7 +19,7 @@ export default function PLP({hybrisHtml, componentsWithHtml }) {
 export async function getServerSideProps(context) {
   const { req, res, query, params } = context
   const {category, subCategory} = params
-  const hostUrl = process.env.
+  const { UPSTREAM_URL, HEADER_PORT } = process.env;
 
   const hybrisHtml = await getHybrisPage(context);
   const componentsUrlsFromHybris = getComponentsRefsEmbeddedInHybrisPage(hybrisHtml);
@@ -29,7 +27,7 @@ export async function getServerSideProps(context) {
     componentsUrlsFromHybris,
     {
       componentId: 'header',
-      componentUrl: 'http://localhost:3010/header'
+      componentUrl: `${UPSTREAM_URL}:${HEADER_PORT}/header`
     }
   ];
   const componentsWithHtml = await getComponentHtml(componentUrlsManifests);
@@ -47,6 +45,7 @@ export async function getServerSideProps(context) {
 const getHybrisPage = async (context) => {
   const { req, res, query, params } = context
   const {category, subCategory} = params
+  const { UPSTREAM_URL, HYBRIS_PORT } = process.env;
 
   const patchedHeaders = {
     ...req.headers
@@ -56,7 +55,7 @@ const getHybrisPage = async (context) => {
     rejectUnauthorized: false,
   });
 
-  const hybrisRes = await fetch(`https://dev.tuclothing.sainsburys.co.uk:9002/c/${category}/${subCategory}${req.url}`, { agent: httpsAgent })
+  const hybrisRes = await fetch(`${UPSTREAM_URL}:${HYBRIS_PORT}/c/${category}/${subCategory}${req.url}`, { agent: httpsAgent })
   return hybrisRes.text();
 }
 

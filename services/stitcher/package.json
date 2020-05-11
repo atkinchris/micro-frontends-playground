@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "buildAndStart": "next build && next start"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
