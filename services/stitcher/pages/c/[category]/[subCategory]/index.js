@@ -19,15 +19,16 @@ export default function PLP({hybrisHtml, componentsWithHtml }) {
 export async function getServerSideProps(context) {
   const { req, res, query, params } = context
   const {category, subCategory} = params
-  const { UPSTREAM_URL, HEADER_PORT } = process.env;
+  const { UPSTREAM_URL, HEADER_URL, HEADER_PORT } = process.env;
 
   const hybrisHtml = await getHybrisPage(context);
   const componentsUrlsFromHybris = getComponentsRefsEmbeddedInHybrisPage(hybrisHtml);
+  console.log("componentsUrlsFromHybris", componentsUrlsFromHybris)
   const componentUrlsManifests = [
     componentsUrlsFromHybris,
     {
       componentId: 'header',
-      componentUrl: `${UPSTREAM_URL}:${HEADER_PORT}/header`
+      componentUrl: `${HEADER_URL}:${HEADER_PORT}/header`
     }
   ];
   const componentsWithHtml = await getComponentHtml(componentUrlsManifests);
@@ -51,12 +52,16 @@ const getHybrisPage = async (context) => {
     ...req.headers
   };
 
+  const url = `${UPSTREAM_URL}:${HYBRIS_PORT}${req.url}`
+  console.log('getHybrisPage: url', url);
+  console.log('getHybrisPage: patchedHeaders', patchedHeaders);
   const httpsAgent = new https.Agent({
     rejectUnauthorized: false,
   });
 
-  const hybrisRes = await fetch(`${UPSTREAM_URL}:${HYBRIS_PORT}/c/${category}/${subCategory}${req.url}`, { agent: httpsAgent })
-  return hybrisRes.text();
+  const hybrisRes = await fetch(url, { agent: httpsAgent, headers: patchedHeaders })
+  const html = await hybrisRes.text();
+  return html;
 }
 
 const getComponentsRefsEmbeddedInHybrisPage = (hybrisPage) => {
@@ -69,6 +74,8 @@ const getComponentsRefsEmbeddedInHybrisPage = (hybrisPage) => {
 
 const getComponentHtml = async (componentManifests) => {
   return Promise.all(componentManifests.map(async ({componentId, componentUrl, embedIntoHybrisHtml=false}) => {
+    console.log("getComponentHtml: componentId", componentId)
+    console.log("getComponentHtml: componentUrl", componentUrl)
     const componentResponse = await fetch(componentUrl);
     const componentHtml = await componentResponse.text();
     return {componentId, componentUrl, componentHtml, embedIntoHybrisHtml}

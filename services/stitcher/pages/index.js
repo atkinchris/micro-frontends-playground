@@ -16,13 +16,17 @@ export default function Home({hybrisHTML}) {
 
 export async function getServerSideProps(context) {
   const { req, res, query, params } = context
+  const { UPSTREAM_URL, HYBRIS_PORT } = process.env;
   const patchedHeaders = {
     ...req.headers
   }
   const httpsAgent = new https.Agent({
     rejectUnauthorized: false,
   });
-  const hybrisRes = await fetch(`https://dev.tuclothing.sainsburys.co.uk:9002/`, { agent: httpsAgent })
+  const url = `${UPSTREAM_URL}:${HYBRIS_PORT}/`
+  console.log('index: url', url)
+  console.log('index: patchedHeaders', patchedHeaders);
+  const hybrisRes = await fetch(url, { agent: httpsAgent, headers: patchedHeaders })
   const html = await hybrisRes.text();
   return {
     props: {

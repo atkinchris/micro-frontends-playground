@@ -46,11 +46,15 @@ services:
       - 3000:3000
     environment:
       PORT: 3000
-      UPSTREAM_URL: https://host.docker.internal
+      UPSTREAM_URL: https://tu-clothing
+      HEADER_URL: http://header
       HYBRIS_PORT: 9002
       HEADER_PORT: 3010
       SORT_PORT: 3020
       NODE_TLS_REJECT_UNAUTHORIZED: 0
+#    volumes:
+#      - ./services/stitcher:/app
+#    command: npm run dev
     networks:
       - tu
 
