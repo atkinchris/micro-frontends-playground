@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="25px" viewBox="0 0 18 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Store D</title>
+    <desc>Store D</desc>
+    <g id="MarkerD" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M9.053,23 C13.577,17.9011428 17,12.3260243 17,8.70194184 C17,4.47077952 13.428,1 9.053,1 C4.587,1 1,4.45647124 1,8.70194184 C1,12.30865 4.417,17.7917867 9.053,23 Z" id="Path" stroke="#000000" stroke-width="2" fill="#000000"></path>
+        <path d="M13.52,9.2 C13.52,6.336 11.568,4.4 8.576,4.4 L5.184,4.4 L5.184,14 L8.576,14 C11.568,14 13.52,12.064 13.52,9.2 Z M6.768,5.808 L8.48,5.808 C10.4,5.808 11.904,7.024 11.904,9.2 C11.904,11.328 10.4,12.592 8.48,12.592 L6.768,12.592 L6.768,5.808 Z" id="D" fill="#FFFFFF" fill-rule="nonzero"></path>
+    </g>
+</svg>

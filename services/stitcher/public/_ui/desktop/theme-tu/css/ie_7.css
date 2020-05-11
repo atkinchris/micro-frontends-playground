@@ -1,0 +1,224 @@
+@charset "utf-8";
+/* CSS Document */
+#header button.button {
+	padding: 0px 8px 0px 8px;
+	top: 0;
+}
+
+#cart_content {
+	width: 200px;
+	padding-right: 11px;
+}
+
+/* #cart_header { */
+/* 	width: 167px; */
+/* } */
+
+#cart_header ul {
+	width: 167px;
+}
+
+#header ul.language {
+	margin: 10px -10px 10px 0;
+}
+
+#header .search {
+	height: 28px;
+}
+
+#header .headerContent {
+	max-width: 750px;
+}
+
+#breadcrumb {
+	position: auto;
+	margin-left: -10px;
+}
+
+#rollover_cart_popup {
+	display: none;
+}
+
+
+/* End hide from IE-mac */
+
+/*
+
+	Cart Modal
+*****************/
+.cart_popup .cart_modal_popup .prod_info {
+	width: auto;
+}
+/*
+	Home Page Media Banners
+*****************/
+.cms_disp-img_slot .disp-img .media a {
+	display: block; /* Resolves IE7 Empty Text Node issue */
+}
+/*
+	Product Page Tabs
+*****************/
+#prod_tabs.ui-tabs .ui-tabs-nav li h2 a {
+	padding-left: 20px;
+}
+
+button.search .search-icon {
+	background: transparent url(../images/button/search-small.png) no-repeat left 0px;
+	display: block;
+}
+
+.prod_grid .cart button .icon-cart {
+	display: block;
+}
+
+.nav_column .item .category span.dropdown {
+	margin-top: -15px;
+}
+
+div.dynamic_disp-img .title h2 {
+  background-color: #007174;
+}
+
+
+
+
+
+
+
+/*****   prod_list link ******/
+
+.prod_grid .productMainLink{
+	height:200px;
+}
+
+
+
+
+div.navTopBarOffers {
+	height: 44px;
+}
+
+.navTopBarOffers ul li.navTopBarOffersLast {
+	border-right: none;
+}
+
+/* Fixes Main nav to horizontal center */
+#nav_main ul {
+	width: 990px;
+}
+
+/* Fixes basket box title text size */
+h2#basket-title {
+	font-size: 10px;
+}
+
+.cart_header_panel {
+	width: 700px;
+}
+
+.cart_button {
+	margin-left: 300px;
+	width: 100px;
+}
+
+.disabled #cart_button a {
+	float: none;
+	display: inline-block;
+	margin-left: 300px;
+}
+
+.variant_options {
+	width: 300px;
+	overflow: hidden;
+}
+
+.size {
+	width: 100px;
+	float: left;
+}
+
+.variant_options .size-guide {
+	margin-left: 120px;
+	width: 100px;
+	display: inline;
+}
+
+
+
+
+	Buttons
+*****************/
+button {
+	width: 0; /* IE table-cell margin fix */
+	overflow: visible;
+	height: auto;
+}
+.opaque {
+	filter: alpha(opacity = 40);
+	zoom: 1;
+	/* BA 25/05/2011 To trigger "hasLayout" in IE if no width or height is set */
+}
+
+
+
+/*
+
+	Navigation
+*****************/
+#nav_main {
+	z-index: 2000;
+	
+}
+#nav_main ul {
+	z-index: 2000; /* BA.2011.05.11 added to fix IE7 menus appearing behind site components. The relatively positioned parent of the abs pos menu should be given a z-index that is higher than those of subequent positioned elements; there is a z-index of 100000000 on the child UL.*/
+}
+#nav_main ul li {
+	position: relative;  /* BA.2011.05.11 added to fix IE7 sub menu alignment issues. The sub menus can now align left zero on the respective parent li */
+	float: left;
+}
+
+
+ul.Lb {
+	display: none;
+	width: 100%;
+}
+
+ul.Lb li{
+	float: none;
+	display: inline;
+}
+
+li.La:hover ul.Lb {
+	display: block;
+	left: 0;
+}
+li.La a:focus + ul.Lb {
+	display: block;
+}
+
+/*	Scroller
+*****************/
+.scroller,
+.item_container {
+	overflow: visible; /* added to resolve payment details page diver cols*/
+}
+
+.regNectarFields {
+	width: 390px;
+}
+
+.regContactPref {
+	width: 185px;
+}
+
+.cart_button A {
+	background:red;
+}
+
+.myAccountDetailsHolder {
+	float: right;
+}
+
+.myAccountHistoryHolder {
+	float: left;
+}
